@@ -1,7 +1,14 @@
 <div class="app-container">
-  <nav>
-    <a routerLink="/signup">Sign Up</a>
-    <a routerLink="/login">Login</a>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a href="/home" class="navbar-item">SmartAgri</a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <a href="/signup" class="navbar-item">Sign Up</a>
+        <a href="/login" class="navbar-item">Login</a>
+      </div>
+    </div>
   </nav>
-  <router-outlet></router-outlet>
 </div>
+<router-outlet></router-outlet>

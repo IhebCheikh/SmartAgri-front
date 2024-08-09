@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .login-container {
   width: 300px;
   margin: auto;
@@ -8,10 +14,11 @@
 
 .login-container h2 {
   text-align: center;
+  margin-bottom: 20px; /* Ajouté pour espacer le titre */
 }
 
 .login-container form div {
-  margin-bottom: 10px;
+  margin-bottom: 15px; /* Augmenté pour un meilleur espacement */
 }
 
 .login-container form label {
@@ -37,4 +44,9 @@
 
 .login-container form button:hover {
   background-color: #0056b3;
+}
+
+.login-container p {
+  color: red; /* Pour rendre l'erreur plus visible */
+  text-align: center; /* Centré si c'est une erreur */
 }

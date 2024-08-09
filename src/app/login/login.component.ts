@@ -1,27 +1,33 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormsModule
-  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
-
 export class LoginComponent {
-  email="";
-  password: string="";
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  login() {
-    const data = { email: this.email, password: this.password };
-    this.authService.login(data).subscribe(response => {
-      console.log('User logged in', response);
+  onSubmit() {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response);
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+        this.errorMessage = 'Login failed. Please check your email and password.';
+      },
     });
   }
 }
