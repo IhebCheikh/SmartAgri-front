@@ -25,7 +25,7 @@ export class SignupComponent {
   onSubmit() {
     this.authService.signUp(this.name, this.email, this.password).subscribe({
       next: () => {
-        this.router.navigate(['/home']); // Redirige vers la page d'accueil en cas de succès
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.errorMessage = 'Failed to register, please try again';

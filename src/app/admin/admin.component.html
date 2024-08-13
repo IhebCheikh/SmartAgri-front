@@ -1,0 +1,37 @@
+<div>
+  <h2>Add or Update Sensor</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="bd">BD</label>
+      <input id="bd" [(ngModel)]="sensorForm.bd" name="bd" required />
+    </div>
+    <div>
+      <label for="name">Name</label>
+      <input id="name" [(ngModel)]="sensorForm.name" name="name" required />
+    </div>
+    <div>
+      <label for="type">Type</label>
+      <input id="type" [(ngModel)]="sensorForm.type" name="type" required />
+    </div>
+    <div>
+      <label for="location">Location</label>
+      <input id="location" [(ngModel)]="sensorForm.location" name="location" required />
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <input id="status" [(ngModel)]="sensorForm.status" name="status" required />
+    </div>
+    <button type="submit">{{ sensorForm.id ? 'Update Sensor' : 'Add Sensor' }}</button>
+  </form>
+</div>
+
+<div>
+  <h2>Sensor List</h2>
+  <ul>
+    <li *ngFor="let sensor of sensors">
+      {{ sensor.name }} ({{ sensor.type }}) - {{ sensor.location }}
+      <button (click)="editSensor(sensor)">Edit</button>
+      <button (click)="deleteSensor(sensor.id)">Delete</button>
+    </li>
+  </ul>
+</div>
