@@ -1,23 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../services/sensors.service';
 import { Sensor } from '../models/sensor.model';
-import {NgForOf} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-
+import { NgForOf, NgIf } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [
     NgForOf,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
   sensors: Sensor[] = [];
+  isFormVisible = false;
   sensorForm: Sensor = {
+    _id: '',
     bd: '',
     name: '',
     type: '',
@@ -42,19 +44,28 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  onSubmit(): void {
-    if (this.sensorForm.id) {
-      this.updateSensor();
-    } else {
-      this.addSensor();
-    }
+  showAddSensorForm(): void {
+    this.isFormVisible = true;
+    this.resetForm();
   }
 
-  addSensor(): void {
-    this.sensorService.addSensor(this.sensorForm).subscribe(
-      (sensor: Sensor) => {
-        this.sensors.push(sensor);
-        this.resetForm();
+  hideForm(): void {
+    this.isFormVisible = false;
+  }
+
+  onSubmit(): void {
+    if (this.sensorForm._id) {
+      this.updateSensor(this.sensorForm);
+    } else {
+      this.addSensor(this.sensorForm);
+    }
+    this.hideForm();
+  }
+
+  addSensor(sensor: Sensor): void {
+    this.sensorService.addSensor(sensor).subscribe(
+      (newSensor: Sensor) => {
+        this.sensors.push(newSensor);
       },
       (error) => {
         console.error('Failed to add sensor', error);
@@ -62,14 +73,21 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  editSensor(sensor: Sensor): void {
-    this.sensorForm = { ...sensor };
-  }
 
-  updateSensor(): void {
-    this.sensorService.updateSensor(this.sensorForm).subscribe(
+  editSensor(sensor: Sensor) {
+    this.sensorForm = sensor;
+    this.isFormVisible = true;
+  }
+  updateSensor(sensor: Sensor): void {
+    this.sensorForm = sensor;
+    if (!sensor._id) {
+      console.error('Sensor ID is missing');
+      return;
+    }
+
+    this.sensorService.updateSensor(sensor._id, sensor).subscribe(
       (updatedSensor: Sensor) => {
-        const index = this.sensors.findIndex(s => s.id === updatedSensor.id);
+        const index = this.sensors.findIndex(s => s._id === updatedSensor._id);
         if (index !== -1) {
           this.sensors[index] = updatedSensor;
         }
@@ -80,20 +98,29 @@ export class AdminComponent implements OnInit {
       }
     );
   }
+  deleteSensor(sensor: Sensor) {
+    const sensorId = sensor._id;
 
-  deleteSensor(sensorId: string | undefined): void {
-    this.sensorService.deleteSensor(sensorId).subscribe(
-      () => {
-        this.sensors = this.sensors.filter(sensor => sensor.id !== sensorId);
-      },
-      (error) => {
-        console.error('Failed to delete sensor', error);
-      }
-    );
+    if (!sensorId) {
+      console.error('Sensor ID is missing');
+      return;
+    }
+
+    this.sensorService.deleteSensor(sensorId)
+      .subscribe(
+        () => {
+          this.sensors = this.sensors.filter(sensor => sensor._id !== sensorId);
+          console.log('Sensor deleted successfully');
+        },
+        (error) => {
+          console.error('Error deleting sensor:', error);
+        }
+      );
   }
 
   resetForm(): void {
     this.sensorForm = {
+      _id: '',
       bd: '',
       name: '',
       type: '',

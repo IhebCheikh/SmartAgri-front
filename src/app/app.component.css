@@ -1,56 +1,73 @@
-.app-container {
-  width: 100%;
-  margin: 0 auto;
+/* Styles généraux */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Container */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Navbar */
 .navbar {
-  background-color: #4CAF50; /* Couleur de fond de la barre de navigation */
-  padding: 1rem; /* Espacement interne pour la barre */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #2d3e50;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand .navbar-item {
-  color: white; /* Couleur du texte du bouton SmartAgri */
-  font-size: 1.5rem; /* Taille du texte */
-  font-weight: bold; /* Texte en gras */
-  text-decoration: none; /* Supprime la sous-ligne des liens */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
 }
 
-.navbar-end {
+.brand-logo {
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s;
+}
+
+.brand-logo:hover {
+  color: #00d1b2;
+}
+
+.navbar-menu {
   display: flex;
-  gap: 1rem; /* Espace entre les éléments de navigation */
+  gap: 15px;
 }
 
 .navbar-item {
-  color: white; /* Couleur du texte des liens */
-  text-decoration: none; /* Supprime la sous-ligne des liens */
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-item:hover {
-  color: #A5D6A7; /* Couleur du texte lors du survol */
+  background-color: #00d1b2;
+  color: #ffffff;
 }
 
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.navbar-end .btn-login {
+  background-color: #ffffff;
+  color: #2d3e50;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-  .navbar-brand {
-    margin-bottom: 1rem;
-  }
-
-  .navbar-end {
-    flex-direction: column;
-    width: 100%;
-    gap: 0.5rem;
-  }
-
-  .navbar-item {
-    width: 100%;
-    text-align: center;
-    padding: 0.5rem 0;
-  }
+.btn-login:hover {
+  background-color: #00d1b2;
+  color: #ffffff;
 }

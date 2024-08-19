@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { Sensor } from '../models/sensor.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SensorService {
-  private apiUrl = 'http://localhost:3000/sensors'; // URL de l'API
+  private apiUrl = 'http://localhost:3000/sensors';
 
   constructor(private http: HttpClient) {}
 
@@ -19,11 +19,11 @@ export class SensorService {
     return this.http.post<Sensor>(this.apiUrl, sensor);
   }
 
-  deleteSensor(sensorId: string | undefined): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${sensorId}`);
+  updateSensor(id: string, sensor: Sensor): Observable<Sensor> {
+    return this.http.put<Sensor>(`${this.apiUrl}/${id}`, sensor);
   }
 
-  updateSensor(sensor: Sensor): Observable<Sensor> {
-    return this.http.put<Sensor>(`${this.apiUrl}/${sensor.id}`, sensor);
+  deleteSensor(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

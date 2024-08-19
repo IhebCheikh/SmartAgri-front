@@ -1,5 +1,5 @@
 export interface Sensor {
-  id?: string;
+  _id: string;
   name: string;
   bd: string;
   type: string;
