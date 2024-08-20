@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './services/auth.guard';
+import {AdministratorComponent} from "./administrator/administrator.component";
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+  { path: 'administrator', component: AdministratorComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' },
 ];

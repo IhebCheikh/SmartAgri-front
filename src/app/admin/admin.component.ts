@@ -3,6 +3,8 @@ import { SensorService } from '../services/sensors.service';
 import { Sensor } from '../models/sensor.model';
 import { NgForOf, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import {AdministratorComponent} from "../administrator/administrator.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-admin',
@@ -10,7 +12,9 @@ import { FormsModule } from "@angular/forms";
   imports: [
     NgForOf,
     FormsModule,
-    NgIf
+    NgIf,
+    AdministratorComponent,
+    RouterLink
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']

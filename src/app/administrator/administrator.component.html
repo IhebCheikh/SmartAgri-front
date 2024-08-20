@@ -1,0 +1,25 @@
+<div class="admin">
+  <a routerLink="/admin" class="navbar-item">Sensors</a>
+  <a routerLink="/administrator" class="navbar-item">Users</a>
+</div>
+<div class="administrator-container">
+  <div class="user-list" *ngIf="!selectedUser">
+    <h2>User List</h2>
+    <ul>
+      <li *ngFor="let user of users" (click)="getOneUser(user.id)">
+        {{ user.name }} - {{ user.email }}
+        <button (click)="editUser(user)">Modifier</button>
+        <button (click)="deleteUser(user.id)">Supprimer</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Détails de l'utilisateur sélectionné -->
+  <div *ngIf="selectedUser" class="user-details">
+    <h2>Détails de l'utilisateur</h2>
+    <p><strong>Nom:</strong> {{ selectedUser.name }}</p>
+    <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+    <p><strong>Rôle:</strong> {{ selectedUser.role || 'Utilisateur' }}</p>
+    <button (click)="clearSelectedUser()">Fermer</button>
+  </div>
+</div>
