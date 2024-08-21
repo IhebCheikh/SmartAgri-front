@@ -52,4 +52,38 @@ export class AdministratorComponent {
       this.loadUsers();
     });
   }
+
+  makeAdmin0(userId: string | undefined): void {
+    const superAdminId = this.userService.getCurrentUserId();
+    console.log("here ",superAdminId)
+    this.userService.makeAdmin(superAdminId, userId).subscribe(() => {
+      this.loadUsers();
+    });
+  }
+  makeAdmin(userId: string | undefined): void {
+    console.log('makeAdmin called with userId:', userId);
+    const superAdminId = this.userService.getCurrentUserId();
+    if (!superAdminId) {
+      console.error('No super admin ID found');
+      return;
+    }
+    console.log("Current Super Admin ID: ", superAdminId);
+
+    this.userService.makeAdmin(superAdminId, userId).subscribe(() => {
+      this.loadUsers();
+    });
+  }
+  makeUser(userId: string | undefined): void {
+    const superAdminId = this.userService.getCurrentUserId();
+    if (!superAdminId) {
+      console.error('No super admin ID found');
+      return;
+    }
+    console.log("Current Super Admin ID: ", superAdminId);
+
+    this.userService.makeUser(superAdminId, userId).subscribe(() => {
+      this.loadUsers();
+    });
+  }
+
 }

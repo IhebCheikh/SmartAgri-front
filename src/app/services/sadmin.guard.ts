@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuard implements CanActivate {
+export class SAdminGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
@@ -13,15 +13,10 @@ export class AdminGuard implements CanActivate {
     if (token) {
       const tokenPayload = JSON.parse(atob(token.split('.')[1]));
       console.log(tokenPayload)
-      console.log(tokenPayload.role)
-      if (tokenPayload.role === 'admin') {
-        return true;
-      }
       if (tokenPayload.role === 'superadmin') {
         return true;
       }
     }
-    this.router.navigate(['/home']); // Redirect to login if not an admin
     return false;
   }
 }
