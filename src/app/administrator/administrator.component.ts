@@ -17,7 +17,7 @@ import {RouterLink} from "@angular/router";
 })
 export class AdministratorComponent {
   users: User[] = [];
-  selectedUser: User | null = null;  // Pour stocker l'utilisateur sélectionné
+  selectedUser: User | null = null;
 
   constructor(private userService: AuthService) {}
 

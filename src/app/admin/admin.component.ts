@@ -5,6 +5,8 @@ import { NgForOf, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import {AdministratorComponent} from "../administrator/administrator.component";
 import {RouterLink} from "@angular/router";
+import {User} from "../models/user.model";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-admin',
@@ -28,15 +30,23 @@ export class AdminComponent implements OnInit {
     name: '',
     type: '',
     location: '',
-    status: ''
+    status: false,
+    userId: ''
   };
 
-  constructor(private sensorService: SensorService) {}
+  constructor(private sensorService: SensorService, private userService: AuthService) {}
+  users: User[] = [];
 
   ngOnInit(): void {
     this.loadSensors();
+    this.loadUsers();
   }
 
+  loadUsers(): void {
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
+  }
   loadSensors(): void {
     this.sensorService.getSensors().subscribe(
       (data: Sensor[]) => {
@@ -67,6 +77,7 @@ export class AdminComponent implements OnInit {
   }
 
   addSensor(sensor: Sensor): void {
+    console.log('Sensor Form Data:', this.sensorForm);
     this.sensorService.addSensor(sensor).subscribe(
       (newSensor: Sensor) => {
         this.sensors.push(newSensor);
@@ -129,7 +140,8 @@ export class AdminComponent implements OnInit {
       name: '',
       type: '',
       location: '',
-      status: ''
+      status: false,
+      userId: ''
     };
   }
 }

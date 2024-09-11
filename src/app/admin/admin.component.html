@@ -33,27 +33,46 @@
 <div *ngIf="isFormVisible">
   <h2>{{ sensorForm._id ? 'Update Sensor' : 'Add Sensor' }}</h2>
   <form (ngSubmit)="onSubmit()">
+    <!-- Choisir entre Capteur ou Actionneur -->
+    <div>
+      <label for="sensorType">Type</label>
+      <select id="sensorType" [(ngModel)]="sensorForm.type" name="sensorType" required>
+        <option value="capteur">Capteur</option>
+        <option value="actionneur">Actionneur</option>
+      </select>
+    </div>
+
+    <!-- Sélectionner l'utilisateur -->
+    <div>
+      <label for="user">Assign to User</label>
+      <select id="user" [(ngModel)]="sensorForm.userId" name="userId" required>
+        <option *ngFor="let user of users" [value]="user._id">{{ user.name }}</option>
+      </select>
+    </div>
+
     <div>
       <label for="bd">BD</label>
       <input id="bd" [(ngModel)]="sensorForm.bd" name="bd" required />
     </div>
+
     <div>
       <label for="name">Name</label>
       <input id="name" [(ngModel)]="sensorForm.name" name="name" required />
     </div>
-    <div>
-      <label for="type">Type</label>
-      <input id="type" [(ngModel)]="sensorForm.type" name="type" required />
-    </div>
+
     <div>
       <label for="location">Location</label>
       <input id="location" [(ngModel)]="sensorForm.location" name="location" required />
     </div>
+
+    <!-- Champ pour le statut, désactivé si Capteur est sélectionné -->
     <div>
       <label for="status">Status</label>
-      <input id="status" [(ngModel)]="sensorForm.status" name="status" required />
+      <input id="status" type="checkbox" [(ngModel)]="sensorForm.status" name="status" [disabled]="sensorForm.type === 'capteur'" />
     </div>
+
     <button type="submit">{{ sensorForm._id ? 'Update Sensor' : 'Add Sensor' }}</button>
     <button (click)="hideForm()">Cancel</button>
   </form>
 </div>
+
