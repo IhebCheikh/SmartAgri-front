@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Sensor } from '../models/sensor.model';
+import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,17 @@ export class SensorService {
   addSensor(sensor: any): Observable<any> {
     return this.http.post<Sensor>(this.apiUrl, sensor);
   }
-  getUserSensors(): Observable<any[]> {
-    return this.http.get<Sensor[]>(`${this.apiUrl}/user`);
+
+  getUserSensors(userId: string): Observable<Sensor[]> {
+    return this.http.get<Sensor[]>(`${this.apiUrl}/user/${userId}`);
   }
 
+
+  togglePump2(sensorId: string, status: boolean): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.patch(`${this.apiUrl}/sensors/${sensorId}/toggle-pump`, { status }, { headers });
+  }
   togglePump(sensorId: string, status: boolean): Observable<any> {
     return this.http.post(`${this.apiUrl}/toggle-pump`, { sensorId, status });
   }
