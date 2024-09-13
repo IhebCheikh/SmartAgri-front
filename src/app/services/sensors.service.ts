@@ -32,10 +32,10 @@ export class SensorService {
   togglePump2(sensorId: string, status: boolean): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.patch(`${this.apiUrl}/sensors/${sensorId}/toggle-pump`, { status }, { headers });
+    return this.http.patch(`${this.apiUrl}/${sensorId}/toggle-pump`, { status }, { headers });
   }
   togglePump(sensorId: string, status: boolean): Observable<any> {
-    return this.http.post(`${this.apiUrl}/toggle-pump`, { sensorId, status });
+    return this.http.post(`${this.apiUrl}/toggle-pump/${sensorId}/`, { sensorId, status });
   }
   updateSensor(id: string, sensor: Sensor): Observable<Sensor> {
     return this.http.put<Sensor>(`${this.apiUrl}/${id}`, sensor);

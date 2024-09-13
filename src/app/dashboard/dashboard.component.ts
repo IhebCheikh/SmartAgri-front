@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../services/sensors.service';
-import {NgForOf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {Sensor} from "../models/sensor.model";
 import {AuthService} from "../services/auth.service";
 
@@ -8,7 +8,9 @@ import {AuthService} from "../services/auth.service";
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf,
+    DatePipe
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -17,6 +19,7 @@ export class DashboardComponent {
   lightIntensity: string = '';
   humidity: string = '';
   temperature: string = '';
+  timestamp: string = '';
 
   sensors: any[] = [];
 
@@ -47,5 +50,8 @@ export class DashboardComponent {
   togglePump(sensorId: string, status: boolean): void {
     // Envoyer la requête pour actionner la pompe d'eau (activer/désactiver)
     this.sensorService.togglePump(sensorId, status).subscribe();
+    this.loadUserSensors();
+    this.loadUserSensors();
+
   }
 }

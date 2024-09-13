@@ -1,28 +1,92 @@
 .dashboard {
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+  text-align: center;
+  color: #333;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead {
+  background-color: #007BFF;
+  color: white;
 }
 
 th, td {
-  padding: 12px;
+  padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Boutons avec CSS spécifique */
 button {
-  margin-right: 10px;
-  padding: 8px 12px;
-  background-color: #4CAF50;
-  color: white;
+  padding: 10px 15px;
+  margin: 5px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  color: white;
+}
+
+.btn-open {
+  background-color: #28a745; /* Vert pour Open */
+}
+
+.btn-open:hover {
+  background-color: #218838;
+}
+
+.btn-close {
+  background-color: #dc3545; /* Rouge pour Close */
+}
+
+.btn-close:hover {
+  background-color: #c82333;
+}
+
+/* Ajout de styles pour les statuts Open et Closed */
+.open-status {
+  color: green;
+  font-weight: bold;
+}
+
+.closed-status {
+  color: red;
+  font-weight: bold;
+}
+
+td:last-child {
+  text-align: center;
+}
+
+tbody td {
+  color: #555;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fff;
 }

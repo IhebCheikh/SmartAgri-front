@@ -1,5 +1,8 @@
 <div class="dashboard">
   <h2>Dashboard</h2>
+
+  <!-- Section pour les capteurs -->
+  <h3>Sensors</h3>
   <table>
     <thead>
     <tr>
@@ -7,21 +10,48 @@
       <th>Temperature</th>
       <th>Soil Humidity</th>
       <th>Light Intensity</th>
+      <th>Date</th> <!-- Ajout de la colonne Date -->
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let sensor of sensors">
+      <tr *ngIf="sensor.type === 'capteur'">
+        <td>{{ sensor.name }}</td>
+        <td>{{ sensor.temperature }}°C</td>
+        <td>{{ sensor.soilHumidity }}%</td>
+        <td>{{ sensor.lightIntensity }} lx</td>
+        <td>{{ sensor.timestamp | date:'short' }}</td> <!-- Affichage de la date -->
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+
+  <!-- Section pour les actionneurs -->
+  <h3>Actuators</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>Actuator</th>
+      <th>Status</th>
       <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let sensor of sensors">
-      <td>{{ sensor.name }}</td>
-      <td>{{ sensor.temperature }}°C</td>
-      <td>{{ sensor.soilHumidity }}%</td>
-      <td>{{ sensor.lightIntensity }} lx</td>
-      <td>
-        <button (click)="togglePump(sensor._id, true)">Open Water Pump</button>
-        <button (click)="togglePump(sensor._id, false)">Close Water Pump</button>
-      </td>
-    </tr>
+    <ng-container *ngFor="let actuator of sensors">
+      <tr *ngIf="actuator.type === 'actionneur'">
+        <td>{{ actuator.name }}</td>
+        <td class="{{ actuator.status ? 'open-status' : 'closed-status' }}">{{ actuator.status ? 'Open' : 'Closed' }}</td>
+        <td>
+          <button class="btn-open" (click)="togglePump(actuator._id, true)" [disabled]="actuator.status">
+            Open
+          </button>
+
+          <button class="btn-close" (click)="togglePump(actuator._id, false)" [disabled]="!actuator.status">
+            Close
+          </button>
+        </td>
+      </tr>
+    </ng-container>
     </tbody>
   </table>
 </div>
-
