@@ -7,20 +7,16 @@
     <thead>
     <tr>
       <th>Name</th>
-      <th>Temperature</th>
-      <th>Soil Humidity</th>
-      <th>Light Intensity</th>
-      <th>Date</th>
+      <th>Database</th>
+      <th>Location</th>
     </tr>
     </thead>
     <tbody>
     <ng-container *ngFor="let sensor of sensors">
       <tr *ngIf="sensor.type === 'capteur'" (click)="selectSensor(sensor._id)">
         <td>{{ sensor.name }}</td>
-        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.temperature }}°C</td>
-        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.humidity }}%</td>
-        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.light }} lx</td>
-        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.timestamp | date:'short' }}</td>
+        <td>{{ sensor.bd }}</td>
+        <td>{{ sensor.location }}</td>
       </tr>
     </ng-container>
     </tbody>
@@ -29,7 +25,9 @@
   <!-- Section pour afficher les données détaillées d'un capteur sélectionné -->
   <div *ngIf="selectedSensorId">
     <h3>Sensor Data for {{ getSensorName(selectedSensorId) }}</h3>
-    <table>
+
+    <!-- Si des données sont disponibles -->
+    <table *ngIf="sensorData[selectedSensorId]?.length; else noData">
       <thead>
       <tr>
         <th>Date</th>
@@ -47,6 +45,11 @@
       </tr>
       </tbody>
     </table>
+
+    <!-- Message s'il n'y a pas de données -->
+    <ng-template #noData>
+      <p>No data available for this sensor.</p>
+    </ng-template>
   </div>
 
   <!-- Section pour les actionneurs -->
