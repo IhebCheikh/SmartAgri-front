@@ -66,7 +66,9 @@ export class AdminComponent implements OnInit {
   hideForm(): void {
     this.isFormVisible = false;
   }
-
+  selectSensorType(type: string): void {
+    this.sensorForm.type = type;
+  }
   onSubmit(): void {
     if (this.sensorForm._id) {
       this.updateSensor(this.sensorForm);
@@ -74,6 +76,8 @@ export class AdminComponent implements OnInit {
       this.addSensor(this.sensorForm);
     }
     this.hideForm();
+    this.loadSensors();
+
   }
 
   addSensor(sensor: Sensor): void {
@@ -99,7 +103,6 @@ export class AdminComponent implements OnInit {
       console.error('Sensor ID is missing');
       return;
     }
-
     this.sensorService.updateSensor(sensor._id, sensor).subscribe(
       (updatedSensor: Sensor) => {
         const index = this.sensors.findIndex(s => s._id === updatedSensor._id);

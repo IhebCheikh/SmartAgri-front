@@ -10,17 +10,17 @@
       <th>Temperature</th>
       <th>Soil Humidity</th>
       <th>Light Intensity</th>
-      <th>Date</th> <!-- Ajout de la colonne Date -->
+      <th>Date</th>
     </tr>
     </thead>
     <tbody>
     <ng-container *ngFor="let sensor of sensors">
       <tr *ngIf="sensor.type === 'capteur'">
         <td>{{ sensor.name }}</td>
-        <td>{{ sensor.temperature }}°C</td>
-        <td>{{ sensor.soilHumidity }}%</td>
-        <td>{{ sensor.lightIntensity }} lx</td>
-        <td>{{ sensor.timestamp | date:'short' }}</td> <!-- Affichage de la date -->
+        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.temperature }}°C</td>
+        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.humidity }}%</td>
+        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.light }} lx</td>
+        <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.timestamp | date:'short' }}</td>
       </tr>
     </ng-container>
     </tbody>

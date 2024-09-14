@@ -1,111 +1,85 @@
-/* Styles pour la classe 'admin' */
+/* admin.component.css */
 .admin {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  background-color: #f7f7f7;
   padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f4f4f4;
+  border-bottom: 2px solid #ddd;
 }
 
-.admin .navbar-item {
-  background-color: #2d3e50;
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 5px;
+.navbar-item {
+  margin: 0 10px;
+  padding: 10px;
   text-decoration: none;
-  text-transform: uppercase;
+  color: #333;
   font-weight: bold;
+  border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
-  cursor: pointer;
 }
 
-.admin .navbar-item:hover {
-  background-color: #00d1b2;
-  color: #ffffff;
+.navbar-item:hover {
+  background-color: #007bff;
+  color: #fff;
 }
 
-/* Table styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+h2 {
+  margin: 20px 0;
 }
 
-th, td {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-th {
-  background-color: #2d3e50;
-  color: white;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Button styles */
 button {
-  background-color: #2d3e50;
-  color: #ffffff;
-  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  font-weight: bold;
-  text-transform: uppercase;
+  padding: 10px 15px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  margin: 5px;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #00d1b2;
-  color: #ffffff;
+  background-color: #0056b3;
 }
 
-button + button {
-  margin-left: 10px;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-/* Form styles */
+table th, table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
 form {
-  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 form div {
   margin-bottom: 15px;
 }
 
-form label {
+label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-form input {
-  width: calc(100% - 20px);
-  padding: 8px 10px;
-  border: 1px solid #dddddd;
+input[type="text"], select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-form button[type="submit"] {
-  background-color: #2d3e50;
-}
-
-form button[type="submit"]:hover {
-  background-color: #00d1b2;
-}
-
-form button[type="button"] {
-  background-color: #c0392b;
-}
-
-form button[type="button"]:hover {
-  background-color: #e74c3c;
+input[type="checkbox"] {
+  margin-right: 10px;
 }

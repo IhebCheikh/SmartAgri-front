@@ -3,6 +3,7 @@ import { SensorService } from '../services/sensors.service';
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {Sensor} from "../models/sensor.model";
 import {AuthService} from "../services/auth.service";
+import {SensorData} from "../models/sensor-data.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ export class DashboardComponent {
   timestamp: string = '';
 
   sensors: any[] = [];
+  sensorData: { [key: string]: SensorData[] } = {};
 
   constructor(private sensorService: SensorService, private userService: AuthService) {}
 
@@ -37,8 +39,11 @@ export class DashboardComponent {
     }
 
     this.sensorService.getUserSensors(userId).subscribe(
-      (data) => {
-        this.sensors = data;  // Charger les capteurs de l'utilisateur connecté
+      (sensors) => {
+        this.sensors = sensors;
+        sensors.forEach(sensor => {
+          this.loadSensorData(sensor._id);
+        });
       },
       (error) => {
         console.error('Error fetching sensors', error);
@@ -46,9 +51,18 @@ export class DashboardComponent {
     );
   }
 
+  loadSensorData(sensorId: string): void {
+    this.sensorService.getSensorData(sensorId).subscribe(
+      (data) => {
+        this.sensorData[sensorId] = data;  // Stocker les données du capteur par ID
+      },
+      (error) => {
+        console.error('Error fetching sensor data', error);
+      }
+    );
+  }
 
   togglePump(sensorId: string, status: boolean): void {
-    // Envoyer la requête pour actionner la pompe d'eau (activer/désactiver)
     this.sensorService.togglePump(sensorId, status).subscribe();
     this.loadUserSensors();
     this.loadUserSensors();

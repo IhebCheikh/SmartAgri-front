@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Sensor } from '../models/sensor.model';
 import {User} from "../models/user.model";
+import {SensorData} from "../models/sensor-data.model";
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,9 @@ export class SensorService {
   updateSensor(id: string, sensor: Sensor): Observable<Sensor> {
     return this.http.put<Sensor>(`${this.apiUrl}/${id}`, sensor);
   }
-
+  getSensorData(sensorId: string): Observable<SensorData[]> {
+    return this.http.get<SensorData[]>(`${this.apiUrl}/data/${sensorId}`);
+  }
   deleteSensor(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
