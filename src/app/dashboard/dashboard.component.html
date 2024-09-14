@@ -15,7 +15,7 @@
     </thead>
     <tbody>
     <ng-container *ngFor="let sensor of sensors">
-      <tr *ngIf="sensor.type === 'capteur'">
+      <tr *ngIf="sensor.type === 'capteur'" (click)="selectSensor(sensor._id)">
         <td>{{ sensor.name }}</td>
         <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.temperature }}°C</td>
         <td *ngIf="sensorData[sensor._id]?.length">{{ sensorData[sensor._id][0]?.humidity }}%</td>
@@ -25,6 +25,29 @@
     </ng-container>
     </tbody>
   </table>
+
+  <!-- Section pour afficher les données détaillées d'un capteur sélectionné -->
+  <div *ngIf="selectedSensorId">
+    <h3>Sensor Data for {{ getSensorName(selectedSensorId) }}</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Temperature</th>
+        <th>Soil Humidity</th>
+        <th>Light Intensity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of sensorData[selectedSensorId]">
+        <td>{{ data.timestamp | date:'short' }}</td>
+        <td>{{ data.temperature }}°C</td>
+        <td>{{ data.humidity }}%</td>
+        <td>{{ data.light }} lx</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Section pour les actionneurs -->
   <h3>Actuators</h3>
@@ -40,12 +63,13 @@
     <ng-container *ngFor="let actuator of sensors">
       <tr *ngIf="actuator.type === 'actionneur'">
         <td>{{ actuator.name }}</td>
-        <td class="{{ actuator.status ? 'open-status' : 'closed-status' }}">{{ actuator.status ? 'Open' : 'Closed' }}</td>
+        <td class="{{ actuator.status ? 'open-status' : 'closed-status' }}">
+          {{ actuator.status ? 'Open' : 'Closed' }}
+        </td>
         <td>
           <button class="btn-open" (click)="togglePump(actuator._id, true)" [disabled]="actuator.status">
             Open
           </button>
-
           <button class="btn-close" (click)="togglePump(actuator._id, false)" [disabled]="!actuator.status">
             Close
           </button>

@@ -17,22 +17,18 @@ import {SensorData} from "../models/sensor-data.model";
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  lightIntensity: string = '';
-  humidity: string = '';
-  temperature: string = '';
-  timestamp: string = '';
-
   sensors: any[] = [];
   sensorData: { [key: string]: SensorData[] } = {};
+  selectedSensorId: string | null = null;  // Capteur sélectionné
 
-  constructor(private sensorService: SensorService, private userService: AuthService) {}
-
+  constructor(private sensorService: SensorService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUserSensors();  // Charger les capteurs à l'initialisation
   }
+
   loadUserSensors(): void {
-    const userId = this.userService.getCurrentUserId();  // Récupérer l'ID de l'utilisateur connecté
+    const userId = this.authService.getCurrentUserId();  // Récupérer l'ID de l'utilisateur connecté
     if (!userId) {
       console.error('No user ID found');
       return;
@@ -42,7 +38,7 @@ export class DashboardComponent {
       (sensors) => {
         this.sensors = sensors;
         sensors.forEach(sensor => {
-          this.loadSensorData(sensor._id);
+          this.loadSensorData(sensor._id);  // Charger les données des capteurs
         });
       },
       (error) => {
@@ -62,10 +58,24 @@ export class DashboardComponent {
     );
   }
 
-  togglePump(sensorId: string, status: boolean): void {
-    this.sensorService.togglePump(sensorId, status).subscribe();
-    this.loadUserSensors();
-    this.loadUserSensors();
+  selectSensor(sensorId: string): void {
+    this.selectedSensorId = sensorId;  // Définir le capteur sélectionné
+  }
 
+  getSensorName(sensorId: string): string {
+    const sensor = this.sensors.find(s => s._id === sensorId);
+    return sensor ? sensor.name : '';
+  }
+
+  togglePump(sensorId: string, status: boolean): void {
+    this.sensorService.togglePump(sensorId, status).subscribe(
+      () => {
+        // Mettre à jour l'état du capteur
+        this.loadUserSensors();
+      },
+      (error) => {
+        console.error('Error toggling pump', error);
+      }
+    );
   }
 }
