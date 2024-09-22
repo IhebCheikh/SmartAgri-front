@@ -1,146 +1,134 @@
-.administrator-container {
-  padding: 20px;
-}
-
-.user-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.user-list li {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-}
-
-.user-details {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
-
-button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-/* Styles pour la classe 'admin' */
 .admin {
-  display: flex;
-  justify-content: space-between;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #E7F6E1; /* Vert clair */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #4D774E; /* Vert sombre */
   margin-bottom: 20px;
-  background-color: #f7f7f7;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin .navbar-item {
-  background-color: #2d3e50;
-  color: #ffffff;
+/* Liens pour la navigation entre capteurs et utilisateurs */
+.navbar-item {
+  display: inline-block;
   padding: 10px 20px;
-  border-radius: 5px;
+  margin: 0 5px;
+  background-color: #6F8F72;
+  color: white;
   text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
-  transition: background-color 0.3s, color 0.3s;
-  cursor: pointer;
+  border-radius: 5px;
 }
 
-.admin .navbar-item:hover {
-  background-color: #00d1b2;
-  color: #ffffff;
+.navbar-item:hover {
+  background-color: #4D774E;
 }
 
-/* Table styles */
+/* Table de capteurs */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  background-color: white;
+}
+
+thead {
+  background-color: #6F8F72;
+  color: white;
 }
 
 th, td {
-  border: 1px solid #dddddd;
+  padding: 12px 15px;
   text-align: left;
-  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
-th {
-  background-color: #2d3e50;
-  color: white;
-  text-transform: uppercase;
-  font-weight: bold;
+tr:hover {
+  background-color: #F0FFF0; /* Doux vert pour survol */
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Button styles */
+/* Boutons d'action */
 button {
-  background-color: #2d3e50;
-  color: #ffffff;
-  padding: 8px 16px;
+  padding: 10px 15px;
+  margin: 5px;
   border: none;
   border-radius: 5px;
-  font-weight: bold;
-  text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #00d1b2;
-  color: #ffffff;
+  opacity: 0.8;
 }
 
-button + button {
-  margin-left: 10px;
+.btn-open {
+  background-color: #59C36A;
 }
 
-/* Form styles */
+.btn-open:hover {
+  background-color: #4D774E;
+}
+
+.btn-close {
+  background-color: #D9534F;
+}
+
+.btn-close:hover {
+  background-color: #C9302C;
+}
+
+/* Formulaire pour l'ajout ou la modification de capteurs */
 form {
   margin-top: 20px;
-}
-
-form div {
-  margin-bottom: 15px;
+  background-color: #F0FFF0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 form label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
+  color: #4D774E;
 }
 
-form input {
-  width: calc(100% - 20px);
-  padding: 8px 10px;
-  border: 1px solid #dddddd;
+form input, form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+form button {
+  background-color: #6F8F72;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
   border-radius: 5px;
 }
 
-form button[type="submit"] {
-  background-color: #2d3e50;
+form button:hover {
+  background-color: #4D774E;
 }
 
-form button[type="submit"]:hover {
-  background-color: #00d1b2;
+button.cancel {
+  background-color: #D9534F;
 }
 
-form button[type="button"] {
-  background-color: #c0392b;
+button.cancel:hover {
+  background-color: #C9302C;
 }
 
-form button[type="button"]:hover {
-  background-color: #e74c3c;
+/* Boutons de type capteur/actionneur */
+button.selected {
+  background-color: #4D774E;
+  color: white;
 }

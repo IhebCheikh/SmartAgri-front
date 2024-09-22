@@ -13,7 +13,7 @@
     </thead>
     <tbody>
     <ng-container *ngFor="let sensor of sensors">
-      <tr *ngIf="sensor.type === 'capteur'" (click)="selectSensor(sensor._id)">
+      <tr *ngIf="sensor.type === 'Sensor'" (click)="selectSensor(sensor._id)">
         <td>{{ sensor.name }}</td>
         <td>{{ sensor.bd }}</td>
         <td>{{ sensor.location }}</td>
@@ -64,7 +64,7 @@
     </thead>
     <tbody>
     <ng-container *ngFor="let actuator of sensors">
-      <tr *ngIf="actuator.type === 'actionneur'">
+      <tr *ngIf="actuator.type === 'Actuator'">
         <td>{{ actuator.name }}</td>
         <td class="{{ actuator.status ? 'open-status' : 'closed-status' }}">
           {{ actuator.status ? 'Open' : 'Closed' }}

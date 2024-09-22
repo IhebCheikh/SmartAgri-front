@@ -3,14 +3,14 @@
   margin: 0 auto;
   padding: 20px;
   font-family: 'Arial', sans-serif;
-  background-color: #f7f7f7;
+  background-color: #E7F6E1; /* Vert clair pour refléter l'agriculture */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2, h3 {
   text-align: center;
-  color: #333;
+  color: #4D774E; /* Vert sombre */
 }
 
 table {
@@ -20,7 +20,7 @@ table {
 }
 
 thead {
-  background-color: #007BFF;
+  background-color: #6F8F72; /* Teinte verte pour l'agriculture */
   color: white;
 }
 
@@ -31,10 +31,10 @@ th, td {
 }
 
 tr:hover {
-  background-color: #f1f1f1;
+  background-color: #F0FFF0; /* Doux vert pour survol */
 }
 
-/* Boutons avec CSS spécifique */
+/* Boutons */
 button {
   padding: 10px 15px;
   margin: 5px;
@@ -44,49 +44,18 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  color: white;
-}
-
 .btn-open {
-  background-color: #28a745; /* Vert pour Open */
+  background-color: #59C36A;
 }
 
 .btn-open:hover {
-  background-color: #218838;
+  background-color: #4D774E;
 }
 
 .btn-close {
-  background-color: #dc3545; /* Rouge pour Close */
+  background-color: #D9534F;
 }
 
 .btn-close:hover {
-  background-color: #c82333;
-}
-
-/* Ajout de styles pour les statuts Open et Closed */
-.open-status {
-  color: green;
-  font-weight: bold;
-}
-
-.closed-status {
-  color: red;
-  font-weight: bold;
-}
-
-td:last-child {
-  text-align: center;
-}
-
-tbody td {
-  color: #555;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: #fff;
+  background-color: #C9302C;
 }
