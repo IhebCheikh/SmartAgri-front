@@ -59,3 +59,16 @@ button {
 .btn-close:hover {
   background-color: #C9302C;
 }
+.anomaly {
+  color: red;
+  font-weight: bold;
+}
+.anomaly-alert {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+  background-color: #fdd;
+  padding: 10px;
+  border: 1px solid red;
+}
+

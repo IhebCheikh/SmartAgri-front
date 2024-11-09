@@ -17,10 +17,6 @@ export class SensorService {
     return this.http.get<Sensor[]>(this.apiUrl);
   }
 
-  addSensorr(sensorData: any): Observable<any> {
-    return this.http.post('/api/sensors', sensorData);
-  }
-
   addSensor(sensor: any): Observable<any> {
     return this.http.post<Sensor>(this.apiUrl, sensor);
   }
@@ -30,11 +26,6 @@ export class SensorService {
   }
 
 
-  togglePump2(sensorId: string, status: boolean): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.patch(`${this.apiUrl}/${sensorId}/toggle-pump`, { status }, { headers });
-  }
   togglePump(sensorId: string, status: boolean): Observable<any> {
     return this.http.post(`${this.apiUrl}/toggle-pump/${sensorId}/`, { sensorId, status });
   }
@@ -46,5 +37,12 @@ export class SensorService {
   }
   deleteSensor(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  detectAnomaly(values: number[][]): Observable<{ predictions: number[] }> {
+    return this.http.post<{ predictions: number[] }>(`${this.apiUrl}/detect-anomaly`, { values });
+  }
+  // Détecter les anomalies des capteurs pour un utilisateur
+  detectAnomalies(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${userId}/detect-anomaly`);
   }
 }

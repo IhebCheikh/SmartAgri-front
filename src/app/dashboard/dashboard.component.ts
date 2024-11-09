@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../services/sensors.service';
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
-import {Sensor} from "../models/sensor.model";
-import {AuthService} from "../services/auth.service";
-import {SensorData} from "../models/sensor-data.model";
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import { Sensor } from '../models/sensor.model';
+import { AuthService } from '../services/auth.service';
+import { SensorData } from '../models/sensor-data.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,17 +14,19 @@ import {SensorData} from "../models/sensor-data.model";
     DatePipe
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   sensors: any[] = [];
   sensorData: { [key: string]: SensorData[] } = {};
-  selectedSensorId: string | null = null;  // Capteur sélectionné
+  anomalies: { [key: string]: boolean[] } = {};  // Anomalies associées aux capteurs
+  selectedSensorId: string | null = null;
 
   constructor(private sensorService: SensorService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUserSensors();  // Charger les capteurs à l'initialisation
+    this.loadAnomalies();  // Charger les anomalies à l'initialisation
   }
 
   loadUserSensors(): void {
@@ -37,7 +39,7 @@ export class DashboardComponent {
     this.sensorService.getUserSensors(userId).subscribe(
       (sensors) => {
         this.sensors = sensors;
-        sensors.forEach(sensor => {
+        sensors.forEach((sensor) => {
           this.loadSensorData(sensor._id);  // Charger les données des capteurs
         });
       },
@@ -58,12 +60,36 @@ export class DashboardComponent {
     );
   }
 
+  loadAnomalies(): void {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      console.error('No user ID found for anomaly detection');
+      return;
+    }
+
+    this.sensorService.detectAnomalies(userId).subscribe(
+      (anomalyResult) => {
+        console.log("Anomalies received from backend:", anomalyResult);  // Ajoutez ce log
+
+        // L'API retourne les anomalies détectées, associons-les aux capteurs
+        this.anomalies = anomalyResult.reduce((acc: any, anomaly: any) => {
+          acc[anomaly.sensorId] = anomaly.anomalies;  // Associer anomalies aux capteurs
+          console.log(acc);
+          return acc;
+        }, {});
+      },
+      (error) => {
+        console.error('Error detecting anomalies', error);
+      }
+    );
+  }
+
   selectSensor(sensorId: string): void {
     this.selectedSensorId = sensorId;  // Définir le capteur sélectionné
   }
 
   getSensorName(sensorId: string): string {
-    const sensor = this.sensors.find(s => s._id === sensorId);
+    const sensor = this.sensors.find((s) => s._id === sensorId);
     return sensor ? sensor.name : '';
   }
 
@@ -77,5 +103,10 @@ export class DashboardComponent {
         console.error('Error toggling pump', error);
       }
     );
+  }
+
+  // Vérifier si une anomalie est présente pour un capteur donné
+  hasAnomaly(sensorId: string): boolean {
+    return this.anomalies[sensorId] && this.anomalies[sensorId].includes(true);
   }
 }

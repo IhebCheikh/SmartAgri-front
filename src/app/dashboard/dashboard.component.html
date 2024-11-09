@@ -9,6 +9,7 @@
       <th>Name</th>
       <th>Database</th>
       <th>Location</th>
+      <th>Anomalies</th>
     </tr>
     </thead>
     <tbody>
@@ -17,6 +18,11 @@
         <td>{{ sensor.name }}</td>
         <td>{{ sensor.bd }}</td>
         <td>{{ sensor.location }}</td>
+        <td>
+          <div *ngIf="hasAnomaly(sensor._id)" class="anomaly-alert">
+            <span>Attention : Anomalie détectée !</span>
+          </div>
+        </td>
       </tr>
     </ng-container>
     </tbody>
