@@ -43,7 +43,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let data of sensorData[selectedSensorId]">
+      <tr *ngFor="let data of sensorData[selectedSensorId]; let i = index" [ngClass]="{'anomaly-row': anomalies[selectedSensorId]?.[i]?.isAnomalous}">
         <td>{{ data.timestamp | date:'short' }}</td>
         <td>{{ data.temperature }}°C</td>
         <td>{{ data.humidity }}%</td>

@@ -4,4 +4,5 @@ export interface SensorData {
   temperature: number;
   humidity: number;
   light: number;
+  isAnomalous:boolean
 }

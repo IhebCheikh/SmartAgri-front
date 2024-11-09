@@ -71,4 +71,12 @@ button {
   padding: 10px;
   border: 1px solid red;
 }
+.anomaly-alert {
+  color: red;
+  font-weight: bold;
+}
+
+.anomaly-row {
+  background-color: #ffcccc; /* Couleur de fond pour les lignes avec anomalies */
+}
 

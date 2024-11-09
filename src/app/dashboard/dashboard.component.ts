@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../services/sensors.service';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
-import { Sensor } from '../models/sensor.model';
+import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { SensorData } from '../models/sensor-data.model';
 
@@ -11,7 +10,8 @@ import { SensorData } from '../models/sensor-data.model';
   imports: [
     NgForOf,
     NgIf,
-    DatePipe
+    DatePipe,
+    NgClass
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -19,7 +19,7 @@ import { SensorData } from '../models/sensor-data.model';
 export class DashboardComponent implements OnInit {
   sensors: any[] = [];
   sensorData: { [key: string]: SensorData[] } = {};
-  anomalies: { [key: string]: boolean[] } = {};  // Anomalies associées aux capteurs
+  anomalies: { [sensorId: string]: { isAnomalous: boolean }[] } = {};
   selectedSensorId: string | null = null;
 
   constructor(private sensorService: SensorService, private authService: AuthService) {}
@@ -69,12 +69,21 @@ export class DashboardComponent implements OnInit {
 
     this.sensorService.detectAnomalies(userId).subscribe(
       (anomalyResult) => {
-        console.log("Anomalies received from backend:", anomalyResult);  // Ajoutez ce log
+        console.log("Anomalies received from backend:", anomalyResult);
 
-        // L'API retourne les anomalies détectées, associons-les aux capteurs
-        this.anomalies = anomalyResult.reduce((acc: any, anomaly: any) => {
-          acc[anomaly.sensorId] = anomaly.anomalies;  // Associer anomalies aux capteurs
-          console.log(acc);
+        // Réinitialiser les anomalies et associer chaque capteur et ses anomalies
+        this.anomalies = anomalyResult.reduce((acc: any, sensorData: any) => {
+          const sensorId = sensorData.sensor._id;
+
+          // Associer chaque donnée à une anomalie en fonction de l'index
+          const anomaliesWithData = sensorData.data.map((dataEntry: any, index: number) => ({
+            data: dataEntry,
+            isAnomalous: sensorData.anomalies[index] || false,  // Associe true/false avec chaque data
+          }));
+
+          acc[sensorId] = anomaliesWithData;
+          console.log(`Anomalies for sensor ${sensorId}:`, anomaliesWithData);
+          console.log('acc', acc);
           return acc;
         }, {});
       },
@@ -104,9 +113,11 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-
-  // Vérifier si une anomalie est présente pour un capteur donné
   hasAnomaly(sensorId: string): boolean {
-    return this.anomalies[sensorId] && this.anomalies[sensorId].includes(true);
+    // Vérifie que chaque élément dans anomalies[sensorId] est un objet contenant 'isAnomalous'
+    return Array.isArray(this.anomalies[sensorId]) &&
+      this.anomalies[sensorId].some((anomaly: { isAnomalous: boolean }) => anomaly.isAnomalous);
   }
+
+
 }
