@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Sensor } from '../models/sensor.model';
 import {User} from "../models/user.model";
 import {SensorData} from "../models/sensor-data.model";
+import {SensorRequest} from "../models/request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,33 @@ export class SensorService {
 
   addSensor(sensor: any): Observable<any> {
     return this.http.post<Sensor>(this.apiUrl, sensor);
+  }
+  addSensorRequestt(sensorRequest: SensorRequest): Observable<any> {
+    console.log(sensorRequest)
+    return this.http.post('http://localhost:3000/sensor-requests', sensorRequest);
+  }
+  addSensorRequest(requestData: Partial<SensorRequest>): Observable<SensorRequest> {
+    return this.http.post<SensorRequest>('http://localhost:3000/sensor-requests', requestData);
+  }
+
+  /*
+  submitSensorRequest(requestData: { type: string; location: string; reason: string }) {
+    return this.http.post('http://localhost:3000/sensor-requests', requestData);
+  }*/
+  getSensorRequests(): Observable<SensorRequest[]> {
+    return this.http.get<SensorRequest[]>(`http://localhost:3000/sensor-requests`);
+  }
+  getUserRequests(userId: string): Observable<SensorRequest[]>  {
+    return this.http.get<SensorRequest[]>(`http://localhost:3000/sensor-requests/${userId}`);
+  }
+
+  updateSensorRequest(requestId: string, updatedStatus: "approved" | "rejected"): Observable<SensorRequest> {
+    const payload = { status: updatedStatus }; // Objet attendu côté backend
+    return this.http.patch<SensorRequest>(`http://localhost:3000/sensor-requests/${requestId}`, payload);
+  }
+
+  deleteSensorRequest(requestId: string) {
+    return this.http.delete(`http://localhost:3000/sensor-requests/${requestId}`);
   }
 
   getUserSensors(userId: string): Observable<Sensor[]> {
@@ -45,4 +73,6 @@ export class SensorService {
   detectAnomalies(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${userId}/detect-anomaly`);
   }
+
+
 }

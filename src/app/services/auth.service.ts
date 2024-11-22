@@ -46,16 +46,6 @@ export class AuthService {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
-
-  /*
-    createUser(user: User): Observable<User> {
-      return this.http.post<User>(this.apiUrl, user);
-  }
-    /*
-    updateUser(id: string, user: User): Observable<User> {
-      return this.http.put<User>(`${this.apiUrl}/${id}`, user);
-    }
-  */
   deleteUser(id: string | undefined): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
@@ -86,6 +76,19 @@ export class AuthService {
     console.log('decodeToken :', decodedToken);
 
     return decodedToken ? decodedToken.id : null;
+  }
+  getRole(): string | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        console.log('role :', tokenPayload.role)
+        return tokenPayload.role || null;
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+    return null;
   }
 
   private decodeToken(token: string): any {

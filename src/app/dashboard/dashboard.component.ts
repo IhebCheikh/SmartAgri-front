@@ -3,6 +3,8 @@ import { SensorService } from '../services/sensors.service';
 import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { SensorData } from '../models/sensor-data.model';
+import {SensorRequest} from "../models/request.model";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,8 @@ import { SensorData } from '../models/sensor-data.model';
     NgForOf,
     NgIf,
     DatePipe,
-    NgClass
+    NgClass,
+    FormsModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -118,6 +121,43 @@ export class DashboardComponent implements OnInit {
     return Array.isArray(this.anomalies[sensorId]) &&
       this.anomalies[sensorId].some((anomaly: { isAnomalous: boolean }) => anomaly.isAnomalous);
   }
+
+  showRequestForm: boolean = false; // Afficher ou masquer le formulaire
+  newRequest: SensorRequest = {
+    _id: '',
+    userId: '',
+    name: '',
+    type: '',
+    location: '',
+    status: 'pending',
+  };
+
+  toggleRequestForm(): void {
+    this.showRequestForm = !this.showRequestForm;
+  }
+
+  submitRequest(): void {
+    const userId = this.authService.getCurrentUserId(); // Récupérer l'utilisateur actuel
+    if (!userId) {
+      console.error('User not authenticated');
+      return;
+    }
+
+    this.newRequest.userId = userId;
+
+    // Appeler le service pour soumettre la demande
+    this.sensorService.addSensorRequest(this.newRequest).subscribe(
+      (response) => {
+        console.log('Sensor request submitted:', response);
+        this.showRequestForm = false; // Masquer le formulaire après la soumission
+        this.loadUserSensors(); // Recharger les capteurs
+      },
+      (error) => {
+        console.error('Error submitting sensor request', error);
+      }
+    );
+  }
+
 
 
 }

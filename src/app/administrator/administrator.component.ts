@@ -39,9 +39,6 @@ export class AdministratorComponent {
   clearSelectedUser(): void {
     this.selectedUser = null; // Pour désélectionner l'utilisateur
   }
-  addUser() {
-    // Logic to add a user
-  }
 
   editUser(user: User) {
     // Logic to edit a user

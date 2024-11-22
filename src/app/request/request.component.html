@@ -1,0 +1,27 @@
+<div class="request-dashboard">
+  <h2>Sensor Requests</h2>
+
+
+  <!-- Tableau des demandes -->
+  <table>
+    <thead>
+    <tr>
+      <th>Sensor Name</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th *ngIf="isAdmin">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let request of requests">
+      <td>{{ request.name }}</td>
+      <td>{{ request.type }}</td>
+      <td>{{ request.status }}</td>
+      <td *ngIf="isAdmin">
+        <button *ngIf="request.status === 'pending' || 'rejected'" (click)="updateRequestStatus(request._id, 'approved')">Approve</button>
+        <button *ngIf="request.status === 'pending' || 'approved'" (click)="updateRequestStatus(request._id, 'rejected')">Reject</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

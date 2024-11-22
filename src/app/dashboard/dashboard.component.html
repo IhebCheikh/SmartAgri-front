@@ -43,8 +43,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let data of sensorData[selectedSensorId]; let i = index" [ngClass]="{'anomaly-row': anomalies[selectedSensorId]?.[i]?.isAnomalous}">
-        <td>{{ data.timestamp | date:'short' }}</td>
+      <tr
+        *ngFor="let data of sensorData[selectedSensorId]; let i = index"
+        [ngClass]="{ 'anomaly-row': anomalies[selectedSensorId]?.[i]?.isAnomalous }"
+      >
+        <td>{{ data.timestamp | date: 'short' }}</td>
         <td>{{ data.temperature }}°C</td>
         <td>{{ data.humidity }}%</td>
         <td>{{ data.light }} lx</td>
@@ -76,10 +79,18 @@
           {{ actuator.status ? 'Open' : 'Closed' }}
         </td>
         <td>
-          <button class="btn-open" (click)="togglePump(actuator._id, true)" [disabled]="actuator.status">
+          <button
+            class="btn-open"
+            (click)="togglePump(actuator._id, true)"
+            [disabled]="actuator.status"
+          >
             Open
           </button>
-          <button class="btn-close" (click)="togglePump(actuator._id, false)" [disabled]="!actuator.status">
+          <button
+            class="btn-close"
+            (click)="togglePump(actuator._id, false)"
+            [disabled]="!actuator.status"
+          >
             Close
           </button>
         </td>
@@ -87,4 +98,28 @@
     </ng-container>
     </tbody>
   </table>
+
+  <!-- Bouton pour afficher le formulaire -->
+  <button class="btn-add-request" (click)="toggleRequestForm()">+ Add Sensor Request</button>
+
+  <!-- Formulaire d'ajout de demande de capteur -->
+  <div *ngIf="showRequestForm" class="sensor-request-form">
+    <h3>Add Sensor Request</h3>
+    <form (ngSubmit)="submitRequest()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="newRequest.name" name="name" required />
+
+      <label for="type">Type:</label>
+      <select id="type" [(ngModel)]="newRequest.type" name="type" required>
+        <option value="Sensor">Sensor</option>
+        <option value="Actuator">Actuator</option>
+      </select>
+
+      <label for="location">Location:</label>
+      <input type="text" id="location" [(ngModel)]="newRequest.location" name="location" required />
+
+      <button type="submit" class="btn-submit">Submit Request</button>
+      <button type="button" class="btn-cancel" (click)="toggleRequestForm()">Cancel</button>
+    </form>
+  </div>
 </div>
