@@ -132,3 +132,30 @@ button.selected {
   background-color: #4D774E;
   color: white;
 }
+/* Box pour les détails utilisateur */
+.user-details-box {
+  background-color: #F0FFF0; /* Vert doux pour correspondre au thème */
+  border: 1px solid #6F8F72; /* Bordure verte */
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-details-box h3 {
+  color: #4D774E; /* Vert sombre */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.user-details-box p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #4D774E; /* Vert sombre pour le texte */
+}
+
+.user-details-box strong {
+  color: #6F8F72; /* Teinte plus vive pour mettre en évidence */
+}
+
+

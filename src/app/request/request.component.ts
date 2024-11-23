@@ -34,18 +34,34 @@ export class RequestComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = ['admin', 'superadmin'].includes(<string>this.authService.getRole());
     this.loadRequests();
-    this.loadUsers(); // Charger les utilisateurs pour l'attribution
+    if (this.isAdmin) {
+      this.loadUsers(); // Charger les utilisateurs uniquement pour l'admin
+    }
   }
 
   loadRequests(): void {
-    this.sensorService.getSensorRequests().subscribe(
-      (requests) => {
-        this.requests = requests;
-      },
-      (error) => {
-        console.error('Error loading requests:', error);
-      }
-    );
+    const userId = this.authService.getCurrentUserId(); // Récupère l'ID utilisateur
+    if (this.isAdmin) {
+      // Charger toutes les demandes si l'utilisateur est administrateur
+      this.sensorService.getSensorRequests().subscribe(
+        (requests) => {
+          this.requests = requests;
+        },
+        (error) => {
+          console.error('Error loading requests:', error);
+        }
+      );
+    } else {
+      // Charger uniquement les demandes de l'utilisateur
+      this.sensorService.getUserRequests(userId).subscribe(
+        (requests) => {
+          this.requests = requests;
+        },
+        (error) => {
+          console.error('Error loading user-specific requests:', error);
+        }
+      );
+    }
   }
 
   loadUsers(): void {
@@ -70,6 +86,7 @@ export class RequestComponent implements OnInit {
       };
       this.selectedRequest = request; // Garde une référence pour ajouter le capteur ensuite
       this.showRequestForm = true; // Affiche le formulaire
+      this.showUpdateForm = false;
     } else {
       this.sensorService.updateRequestStatus(request._id, status).subscribe(
         () => {
@@ -118,5 +135,57 @@ export class RequestComponent implements OnInit {
     this.showRequestForm = false;
     this.selectedRequest = null;
     this.sensorForm = {};
+  }
+
+  showUpdateForm: boolean = false;
+  updateForm: Partial<SensorRequest> = {};
+  selectedRequestId: string | null = null;
+
+// Activer le formulaire de mise à jour
+  updateRequest(request: SensorRequest): void {
+    this.showRequestForm = false; // S'assurer que le formulaire d'ajout est masqué
+    this.showUpdateForm = true;
+    console.log('updateForm :', this.showUpdateForm)
+    this.updateForm = { ...request }; // Pré-remplir le formulaire avec les données existantes
+    this.selectedRequestId = request._id;
+  }
+
+// Soumettre la mise à jour
+  submitUpdate(): void {
+    if (!this.selectedRequestId) {
+      console.error('No request selected for update');
+      return;
+    }
+
+    this.sensorService.updateSensorRequest(this.selectedRequestId, this.updateForm).subscribe(
+      (updatedRequest) => {
+        console.log('Request updated successfully:', updatedRequest);
+        this.loadRequests(); // Recharger les demandes après la mise à jour
+        this.cancelUpdate();
+      },
+      (error) => {
+        console.error('Error updating request:', error);
+      }
+    );
+  }
+
+// Annuler la mise à jour
+  cancelUpdate(): void {
+    this.showUpdateForm = false;
+    this.updateForm = {};
+    this.selectedRequestId = null;
+  }
+
+  deleteRequest(requestId: string): void {
+    // Supprimer une demande
+    this.sensorService.deleteSensorRequest(requestId).subscribe(
+      () => {
+        console.log('Request deleted successfully');
+        this.loadRequests();
+      },
+      (error) => {
+        console.error('Error deleting request:', error);
+      }
+    );
   }
 }

@@ -57,6 +57,11 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); // Vérifiez si un token existe
+  }
+
   getUserRole(): string | null {
     const token = this.getToken();
     if (token) {

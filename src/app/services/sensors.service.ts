@@ -32,15 +32,17 @@ export class SensorService {
   }
 
   updateSensorRequest(requestId: string, updates: Partial<SensorRequest>): Observable<SensorRequest> {
-    return this.http.put<SensorRequest>(`${this.requestsUrl}/${requestId}`, updates);
+    console.log('service')
+    return this.http.patch<SensorRequest>(`${this.requestsUrl}/update/${requestId}`, updates);
   }
 
   updateRequestStatus(requestId: string, status: 'approved' | 'rejected'): Observable<void> {
+    console.log("2",status)
     return this.http.patch<void>(`${this.requestsUrl}/${requestId}`, { status });
   }
 
 
-  getUserRequests(userId: string): Observable<SensorRequest[]>  {
+  getUserRequests(userId: string | null): Observable<SensorRequest[]>  {
     return this.http.get<SensorRequest[]>(`${this.requestsUrl}/${userId}`);
   }
 
