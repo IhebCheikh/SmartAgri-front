@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { SensorData } from '../models/sensor-data.model';
 import {SensorRequest} from "../models/request.model";
 import {FormsModule} from "@angular/forms";
+import {User} from "../models/user.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -126,6 +127,7 @@ export class DashboardComponent implements OnInit {
   newRequest: SensorRequest = {
     _id: '',
     userId: '',
+    username: '',
     name: '',
     type: '',
     location: '',
@@ -138,12 +140,21 @@ export class DashboardComponent implements OnInit {
 
   submitRequest(): void {
     const userId = this.authService.getCurrentUserId(); // Récupérer l'utilisateur actuel
+    const userName = this.authService.getCurrentUserName();
+    console.log("username", typeof userName,userName);
     if (!userId) {
       console.error('User not authenticated');
       return;
     }
 
     this.newRequest.userId = userId;
+    if (typeof userName === "string") {
+      console.log("hereeeeeeee")
+      this.newRequest.username = userName;
+      console.log(this.newRequest.username)
+      console.log(this.newRequest)
+
+    }
 
     // Appeler le service pour soumettre la demande
     this.sensorService.addSensorRequest(this.newRequest).subscribe(

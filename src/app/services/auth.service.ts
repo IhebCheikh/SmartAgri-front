@@ -34,9 +34,6 @@ export class AuthService {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
@@ -49,6 +46,17 @@ export class AuthService {
   deleteUser(id: string | undefined): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  makeAdmin(superAdminId: string | null, userId: string | undefined): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/makeAdmin`, { superAdminId });
+  }
+
+  makeUser(superAdminId: string | null, userId: string | undefined): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/makeUser`, { superAdminId });
+  }
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
   getUserRole(): string | null {
     const token = this.getToken();
     if (token) {
@@ -59,24 +67,26 @@ export class AuthService {
   }
 
 
-  makeAdmin(superAdminId: string | null, userId: string | undefined): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/makeAdmin`, { superAdminId });
-  }
-
-  makeUser(superAdminId: string | null, userId: string | undefined): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/makeUser`, { superAdminId });
-  }
-
   getCurrentUserId(): string | null {
     const token = localStorage.getItem('token');
-    console.log('Token:', token);
+    //console.log('Token:', token);
     if (!token) return null;
 
     const decodedToken = this.decodeToken(token);
-    console.log('decodeToken :', decodedToken);
+    //console.log('decodeToken :', decodedToken);
 
     return decodedToken ? decodedToken.id : null;
   }
+  getCurrentUserName(): string | null {
+    const token = this.getToken();
+    console.log(token)
+    if (!token) return null;
+
+    const decodedToken = this.decodeToken(token);
+    console.log(decodedToken)
+    return decodedToken ? decodedToken.name : null;
+  }
+
   getRole(): string | null {
     const token = this.getToken();
     if (token) {
@@ -92,7 +102,6 @@ export class AuthService {
   }
 
   private decodeToken(token: string): any {
-    console.log('decodeToken called with token:', token);
     // Décodage du token JWT pour récupérer l'ID utilisateur
     try {
       return JSON.parse(atob(token.split('.')[1]));

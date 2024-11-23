@@ -1,13 +1,13 @@
 <div class="request-dashboard">
   <h2>Sensor Requests</h2>
 
-
   <!-- Tableau des demandes -->
   <table>
     <thead>
     <tr>
       <th>Sensor Name</th>
       <th>Type</th>
+      <th>Username</th>
       <th>Status</th>
       <th *ngIf="isAdmin">Actions</th>
     </tr>
@@ -16,12 +16,53 @@
     <tr *ngFor="let request of requests">
       <td>{{ request.name }}</td>
       <td>{{ request.type }}</td>
+      <td>{{ request.username }}</td>
       <td>{{ request.status }}</td>
       <td *ngIf="isAdmin">
-        <button *ngIf="request.status === 'pending' || 'rejected'" (click)="updateRequestStatus(request._id, 'approved')">Approve</button>
-        <button *ngIf="request.status === 'pending' || 'approved'" (click)="updateRequestStatus(request._id, 'rejected')">Reject</button>
+        <button (click)="updateRequestStatus(request, 'approved')">Approve</button>
+        <button (click)="updateRequestStatus(request, 'rejected')">Reject</button>
       </td>
     </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Formulaire d'ajout de capteur -->
+<div *ngFor="let request of requests" class="request-item">
+  <h3>{{ request.name }}</h3>
+  <p>Type: {{ request.type }}</p>
+  <p>Location: {{ request.location }}</p>
+  <p>User: {{ request.userId }}</p>
+  <button (click)="updateRequestStatus(request, 'approved')">Approve</button>
+  <button (click)="updateRequestStatus(request, 'rejected')">Reject</button>
+</div>
+
+<div *ngIf="showRequestForm" class="sensor-form">
+  <h2>Add Sensor</h2>
+  <form (ngSubmit)="submitRequest()">
+    <div>
+      <label for="user">Assign to User</label>
+      <select id="user" [(ngModel)]="sensorForm.userId" name="userId" required>
+        <option *ngFor="let user of users" [value]="user._id">{{ user.name }}</option>
+      </select>
+    </div>
+    <div>
+      <label for="name">Name</label>
+      <input id="name" [(ngModel)]="sensorForm.name" name="name" required />
+    </div>
+    <div>
+      <label for="type">Type</label>
+      <input id="type" [(ngModel)]="sensorForm.type" name="type" required />
+    </div>
+    <div>
+      <label for="location">Location</label>
+      <input id="location" [(ngModel)]="sensorForm.location" name="location" required />
+    </div>
+    <div>
+      <label for="bd">BD</label>
+      <input id="bd" [(ngModel)]="sensorForm.bd" name="bd" required />
+    </div>
+    <button type="submit">Save Sensor</button>
+    <button type="button" (click)="resetForm()">Cancel</button>
+  </form>
 </div>
