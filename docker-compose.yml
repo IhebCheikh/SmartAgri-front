@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: frontend
+    ports:
+      - "80:80" # Port 80 pour le frontend Angular
+    depends_on:
+      - backend
+
+  backend:
+    image: nestjs-app
+    ports:
+      - "3000:3000" # Port 3000 pour le backend
+    environment:
+      - JWT_SECRET="1234567"
+      - JWT_EXPIRES=1h

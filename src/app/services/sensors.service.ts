@@ -10,8 +10,8 @@ import {SensorRequest} from "../models/request.model";
   providedIn: 'root'
 })
 export class SensorService {
-  private sensorsUrl = 'http://localhost:3000/sensors';
-  private requestsUrl = 'http://localhost:3000/sensor-requests';
+  private sensorsUrl = '/api/sensors';
+  private requestsUrl = '/api/sensor-requests';
 
   constructor(private http: HttpClient) {}
 
