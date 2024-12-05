@@ -5,12 +5,13 @@ import { tap } from 'rxjs/operators';
 import {Router} from "@angular/router";
 import {User} from "../models/user.model";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../env/env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
   private jwtHelper = new JwtHelperService();
   // Subjects pour l'état de connexion et le rôle
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
