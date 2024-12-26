@@ -35,6 +35,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/signup`, { name, email, password }).pipe(
       tap((response: any) => {
         localStorage.setItem('token', response.token);
+        this.isAuthenticatedSubject.next(true);
+        this.userRoleSubject.next(this.getUserRole());
       })
     );
   }
